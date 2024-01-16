@@ -72,8 +72,6 @@ python main.py
 
 ## Contributors
 
-We would like to acknowledge the following individuals for their contributions to the research:
-
 <table>
   <tr>
     <td align="center">
