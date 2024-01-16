@@ -41,6 +41,7 @@ class Signal:
         self.original_y = 0
         self.fmin = float("inf")
         self.noise = []
+        self.original_y = None
 
     def read_data_from_csv(self, file_path="data/bidmc_01_Signals.csv"):
         """
@@ -66,6 +67,7 @@ class Signal:
         self.sampling_factor = 1
         self.new_sampling_freq = 125
         self.uploaded = True
+        self.original_y = self.y.copy()
 
     def change_snr(self, new_snr):
         """
@@ -123,6 +125,7 @@ class Signal:
         It may also include functionality to update the signal plot to reflect the new sampling frequency.
         """
         self.new_sampling_freq = new_sampling_freq
+        # Update the plot (if necessary) to reflect the new sampling frequency.
 
     def create_noise(self, y):
         """
@@ -136,7 +139,7 @@ class Signal:
         """
         self.noise_samples.clear()
         self.noise.clear()
-        temp_signal = y.copy()
+        temp_signal = self.y.copy()
         signal_power = temp_signal**2
         signal_average_power = np.mean(signal_power)
         noise_power = signal_average_power / self.SNR
@@ -164,9 +167,6 @@ class Signal:
         return noisy_signal
 
     def get_impulse_train(self):
-        """
-        Get the impulse train for the signal.
-        """
         if self.uploaded:
             impulse_train = np.arange(0, self.x[-1], (1 / self.new_sampling_freq))
         else:
@@ -175,9 +175,6 @@ class Signal:
         return impulse_train
 
     def sample_signal(self):
-        """
-        Sample the signal.
-        """
         impulse_train = self.get_impulse_train()
         y_values_sampled = np.zeros(len(impulse_train))
         y_values_sampled = wsinterp(impulse_train, self.x, self.y)
