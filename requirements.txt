@@ -1,0 +1,6 @@
+diffpy.utils==3.2.4
+numpy==1.26.3
+pandas==2.1.4
+PyQt6==6.6.1
+PyQt6_sip==13.6.0
+pyqtgraph==0.13.3
